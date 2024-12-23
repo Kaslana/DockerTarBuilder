@@ -38,7 +38,7 @@ jobs:
         uses: softprops/action-gh-release@master
         with:
           tag_name: DockerTarBuilder-ARM64
-          name: ${{ env.RELEASE_NAME }} for ARM64
+          name: ${{ env.RELEASE_NAME }} xz for ARM64
           body: |
             ### 使用镜像压缩包
             > 在导入镜像压缩包时:
