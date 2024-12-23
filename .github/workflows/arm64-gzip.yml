@@ -23,10 +23,10 @@ jobs:
             docker pull "${image}" --platform "linux/arm64"
             image_name="${image//\//_}"
             image_name="${image_name//:/_}"
-            docker save "${image}" -o "${image_name}-arm64.tar"
+            docker save "${image}" -o "${image_name}_arm64.tar"
             gzip --version
-            gzip --stdout --force --name --verbose --best "${image_name}-arm64.tar" > "${image_name}-arm64.tar.gz"
-            rm "${image_name}-arm64.tar"
+            gzip --stdout --force --name --verbose --best "${image_name}_arm64.tar" > "${image_name}_arm64.tar.gz"
+            rm "${image_name}_arm64.tar"
           done
 
     - name: Upload artifact

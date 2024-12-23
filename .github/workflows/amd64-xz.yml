@@ -28,10 +28,10 @@ jobs:
             docker pull "${image}" --platform "linux/amd64"
             image_name="${image//\//_}"
             image_name="${image_name//:/_}"
-            docker save "${image}" -o "${image_name}-amd64.tar"
+            docker save "${image}" -o "${image_name}_amd64.tar"
             xz --version
-            xz --stdout --compress --format=xz -9 --extreme --threads=0 --verbose --verbose "${image_name}-amd64.tar" > "${image_name}-amd64.tar.xz"
-            rm "${image_name}-amd64.tar"
+            xz --stdout --compress --format=xz -9 --extreme --threads=0 --verbose --verbose "${image_name}_amd64.tar" > "${image_name}_amd64.tar.xz"
+            rm "${image_name}_amd64.tar"
           done
 
     - name: Upload artifact
