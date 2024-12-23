@@ -50,14 +50,14 @@ jobs:
             > 导入 **.tar.xz** 的镜像压缩包需要 **xz** 命令
             > 导入 **.tar.gz** 的镜像压缩包需要 **gzip** 命令
             ``` shell
-            docker load -i Docker_Images_Archive
+            docker image load --input Docker_Images_Archive
             ```
             ### Docker导出镜像压缩包命令
             ``` shell
             # gzip
             docker image save repository:tag | gzip --stdout --force --name --verbose --best > repository_tag.tar.gz
             # xz
-            docker image save repository:tag | xz --compress --format=xz -9 --extreme --threads=0 --verbose --verbose > repository_tag.tar.xz
+            docker image save repository:tag | xz --stdout --compress --format=xz -9 --extreme --threads=0 --verbose --verbose > repository_tag.tar.xz
             ```
           draft: false
           prerelease: false
