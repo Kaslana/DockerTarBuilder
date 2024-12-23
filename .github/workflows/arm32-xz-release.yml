@@ -18,6 +18,10 @@ jobs:
         run: |
           images="${{ github.event.inputs.docker_images }}"
           IFS=',' read -r -a image_array <<< "$images"
+          uname -a
+          cat /etc/*-release
+          docker version
+          docker system info
           for image in "${image_array[@]}"; do
             docker pull "${image}" --platform "linux/arm/v7"
             image_name="${image//\//_}"
