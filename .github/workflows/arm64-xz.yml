@@ -4,9 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       docker_images:
-        description: '请填写docker镜像名称 多个用英文逗号分开'
+        description: '请填写docker镜像名称:(多个镜像请用英文逗号分开)'
         required: true
-        default: 'alpine:latest,busybox:stable-glibc'  # 设置默认的 Docker 镜像列表
 
 jobs:
   pull_and_package:
@@ -25,7 +24,7 @@ jobs:
             image_name="${image//\//_}"
             image_name="${image_name//:/_}"
             docker save "${image}" -o "${image_name}-arm64.tar"
-            xz --stdout --compress --format=xz -9 --extreme --threads=0 --verbose --verbose "${image_name}-arm64.tar" > "${image_name}-arm64.tar.gz"
+            xz --stdout --compress --format=xz -9 --extreme --threads=0 --verbose --verbose "${image_name}-arm64.tar" > "${image_name}-arm64.tar.xz"
             rm "${image_name}-arm64.tar"
           done
 
@@ -33,6 +32,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: my-artifact
-        path: ${{ github.workspace }}/*.tar.gz
+        path: ${{ github.workspace }}/*.tar.xz
         retention-days: 1  # 将保留天数设置为 1 天 最多可设置90天
 
