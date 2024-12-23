@@ -6,7 +6,6 @@ on:
       docker_images:
         description: '请填写docker镜像名称，多个用英文逗号分开'
         required: true
-        default: 'alpine:latest,alpine/curl,busybox:stable-glibc'
 
 jobs:
   pull_and_package:
@@ -41,11 +40,20 @@ jobs:
           tag_name: DockerTarBuilder-ARM64
           name: ${{ env.RELEASE_NAME }} for ARM64
           body: |
-            [![Github](https://img.shields.io/badge/RELEASE:DockerTarBuilder-123456?logo=github&logoColor=fff&labelColor=green&style=for-the-badge)](https://www.bilibili.com/video/BV1EZ421M7mL) [![Github](https://img.shields.io/badge/国内加速站下载-FC7C0D?logo=github&logoColor=fff&labelColor=000&style=for-the-badge)](https://wkdaily.cpolar.top/archives/1)
-            ### How to use? For example
-            `docker load -i alpine_latest.tar.gz `
-            ### Video teaching
-            [![Bilibili](https://img.shields.io/badge/Bilibili-123456?logo=bilibili&logoColor=fff&labelColor=fb7299)](https://www.bilibili.com/video/BV1yyq6YREdF)
+            ### 使用镜像压缩包
+            > 在导入镜像压缩包时:
+            > 导入 **.tar.xz** 的镜像压缩包需要 **xz** 命令
+            > 导入 **.tar.gz** 的镜像压缩包需要 **gzip** 命令
+            ``` shell
+            docker load -i Docker_Images_Archive
+            ```
+            ### Docker导出镜像压缩包命令
+            ``` shell
+            # gzip
+            docker image save repository:tag | gzip --stdout --force --name --verbose --best > repository_tag.tar.gz
+            # xz
+            docker image save repository:tag | xz --compress --format=xz -9 --extreme --threads=0 --verbose --verbose > repository_tag.tar.xz
+            ```
           draft: false
           prerelease: false
         env:
