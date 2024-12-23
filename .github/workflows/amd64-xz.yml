@@ -1,4 +1,5 @@
 name: x86-64 Pull and Save Docker Image(xz)
+
 on:
   workflow_dispatch:
     inputs:
@@ -8,7 +9,7 @@ on:
 
 jobs:
   pull_and_package:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu
 
     steps:
     - name: Checkout repository
