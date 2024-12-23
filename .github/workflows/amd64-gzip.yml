@@ -1,4 +1,4 @@
-name: x86-64 Pull and Save Docker Image(gzip)
+name: AMD64 Pull and Save Docker Image(gzip)
 
 on:
   workflow_dispatch:
