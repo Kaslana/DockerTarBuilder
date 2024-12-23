@@ -1,10 +1,10 @@
-name: Get-ARM64-Docker-Images-Release
+name: Get-AMD64-Docker-Images-Release(xz)
 
 on:
   workflow_dispatch:
     inputs:
       docker_images:
-        description: '请填写docker镜像名称，多个用英文逗号分开'
+        description: '请填写docker镜像名称,多个用英文逗号分开'
         required: true
         default: 'alpine:latest,alpine/curl,busybox:stable-glibc'
 
@@ -20,12 +20,12 @@ jobs:
           images="${{ github.event.inputs.docker_images }}"
           IFS=',' read -r -a image_array <<< "$images"
           for image in "${image_array[@]}"; do
-            docker pull "${image}" --platform "linux/arm64"
+            docker pull "${image}" --platform "linux/amd64"
             image_name="${image//\//_}"
             image_name="${image_name//:/_}"
-            docker save "${image}" -o "${image_name}-arm64.tar"
-            gzip -c "${image_name}-arm64.tar" > "${image_name}-arm64.tar.gz"
-            rm "${image_name}-arm64.tar"
+            docker save "${image}" -o "${image_name}-amd64.tar"
+            xz --stdout --compress --format=xz -9 --extreme --threads=0 --verbose --verbose "${image_name}-amd64.tar" > "${image_name}-amd64.tar.gz"
+            rm "${image_name}-amd64.tar"
           done
 
       - name: List generated files (debug step)
@@ -38,8 +38,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@master
         with:
-          tag_name: DockerTarBuilder-ARM64
-          name: ${{ env.RELEASE_NAME }} for ARM64
+          tag_name: DockerTarBuilder-AMD64
+          name: ${{ env.RELEASE_NAME }} for x86-64
           body: |
             [![Github](https://img.shields.io/badge/RELEASE:DockerTarBuilder-123456?logo=github&logoColor=fff&labelColor=green&style=for-the-badge)](https://www.bilibili.com/video/BV1EZ421M7mL) [![Github](https://img.shields.io/badge/国内加速站下载-FC7C0D?logo=github&logoColor=fff&labelColor=000&style=for-the-badge)](https://wkdaily.cpolar.top/archives/1)
             ### How to use? For example
@@ -54,7 +54,7 @@ jobs:
       - name: Upload Docker images as release assets
         uses: softprops/action-gh-release@v2.1.0
         with:
-          tag_name: DockerTarBuilder-ARM64
+          tag_name: DockerTarBuilder-AMD64
           files: ${{ github.workspace }}/*.tar.gz
           token: ${{ secrets.GITHUB_TOKEN }}
         env:
